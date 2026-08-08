@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\LotController;
 use App\Http\Controllers\Api\V1\OrganizationController;
 use App\Http\Controllers\Api\V1\ResourceTypeController;
 use App\Http\Controllers\Api\V1\SourceController;
@@ -23,5 +24,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/users/{user}/reactivate', [UserController::class, 'reactivate']);
         Route::apiResource('sources', SourceController::class)->except(['destroy']);
         Route::apiResource('resource-types', ResourceTypeController::class)->except(['destroy']);
+        Route::apiResource('lots', LotController::class)->except(['destroy']);
+        Route::post('/lots/{lot}/depart', [LotController::class, 'markAsDeparted']);
     });
 });

@@ -30,6 +30,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\ResourceTypeRepositoryInterface::class,
             \App\Repositories\ResourceTypeRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\LotRepositoryInterface::class,
+            \App\Repositories\LotRepository::class
+        );
     }
 
     /**
