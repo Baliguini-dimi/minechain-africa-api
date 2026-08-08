@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Cles de signature de la chaine de hachage
+storage/*.pem

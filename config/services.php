@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'passport_chain' => [
+        'private_key' => env('PASSPORT_CHAIN_PRIVATE_KEY'),
+        'public_key' => env('PASSPORT_CHAIN_PUBLIC_KEY'),
+    ],
+
 ];
