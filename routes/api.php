@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\AnomalyController;
 use App\Http\Controllers\Api\V1\CheckpointControlController;
 use App\Http\Controllers\Api\V1\CheckpointController;
 use App\Http\Controllers\Api\V1\LotController;
@@ -30,5 +31,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/lots/{lot}/depart', [LotController::class, 'markAsDeparted']);
         Route::get('/checkpoints', [CheckpointController::class, 'index']);
         Route::post('/checkpoint-controls', [CheckpointControlController::class, 'store']);
+        Route::post('/lots/{lot}/anomalies', [AnomalyController::class, 'store']);
+        Route::post('/anomalies/{anomaly}/resolve', [AnomalyController::class, 'resolve']);
     });
 });
