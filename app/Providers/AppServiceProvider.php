@@ -50,6 +50,16 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\AnomalyRepositoryInterface::class,
             \App\Repositories\AnomalyRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\GpsDeviceRepositoryInterface::class,
+            \App\Repositories\GpsDeviceRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\GpsPositionRepositoryInterface::class,
+            \App\Repositories\GpsPositionRepository::class
+        );
     }
 
     /**
