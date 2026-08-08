@@ -29,6 +29,8 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('resource-types', ResourceTypeController::class)->except(['destroy']);
         Route::apiResource('lots', LotController::class)->except(['destroy']);
         Route::post('/lots/{lot}/depart', [LotController::class, 'markAsDeparted']);
+        Route::post('/lots/{lot}/deliver', [LotController::class, 'markAsDelivered']);
+        Route::post('/lots/{lot}/close-passport', [LotController::class, 'closePassport']);
         Route::get('/checkpoints', [CheckpointController::class, 'index']);
         Route::post('/checkpoint-controls', [CheckpointControlController::class, 'store']);
         Route::post('/lots/{lot}/anomalies', [AnomalyController::class, 'store']);

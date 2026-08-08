@@ -48,6 +48,28 @@ class LotPolicy
         return $user->hasRole('superviseur');
     }
 
+    /**
+     * Validation de la réception : nécessite un Superviseur
+     * (04-roles-et-permissions.md §6 — opération critique).
+     */
+    public function markAsDelivered(User $user, Lot $lot): bool
+    {
+        if ($user->organization_id !== $lot->organization_id) {
+            return false;
+        }
+
+        return $user->hasRole('superviseur');
+    }
+
+    public function closePassport(User $user, Lot $lot): bool
+    {
+        if ($user->organization_id !== $lot->organization_id) {
+            return false;
+        }
+
+        return $user->hasAnyRole(['admin_organisation', 'superviseur']);
+    }
+
     public function delete(User $user, Lot $lot): bool
     {
         return false;

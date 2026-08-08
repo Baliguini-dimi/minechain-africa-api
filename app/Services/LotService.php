@@ -9,6 +9,7 @@ use App\Repositories\Contracts\LotRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 class LotService
 {
@@ -87,6 +88,65 @@ class LotService
             );
 
             $this->logAudit($actor, 'departure', $updated);
+
+            return $updated->fresh(['passport.events']);
+        });
+    }
+
+    /**
+     * Dernier contrôle effectué, lot validé comme livré.
+     * Ajoute l'événement "delivery" à la chaîne.
+     */
+    public function markAsDelivered(Lot $lot, User $actor): Lot
+    {
+        return DB::transaction(function () use ($lot, $actor) {
+            $updated = $this->lotRepository->update($lot, [
+                'status' => 'delivered',
+            ]);
+
+            $this->passportChainService->appendEvent(
+                $lot->passport,
+                'delivery',
+                $actor,
+                payload: ['delivered_at' => now()->toIso8601String()]
+            );
+
+            $this->logAudit($actor, 'delivery', $updated);
+
+            return $updated->fresh(['passport.events']);
+        });
+    }
+
+    /**
+     * Clôture définitive du passeport (01-cahier-des-charges.md §5) :
+     * dernier événement "closure" ajouté à la chaîne, passeport et lot clôturés.
+     * Historique reste consultable et auditable en permanence (rien n'est supprimé).
+     */
+    public function closePassport(Lot $lot, User $actor): Lot
+    {
+        return DB::transaction(function () use ($lot, $actor) {
+            if ($lot->status !== 'delivered') {
+                throw ValidationException::withMessages([
+                    'status' => ["Le lot doit être livré avant que son passeport puisse être clôturé."],
+                ]);
+            }
+
+            $this->passportChainService->appendEvent(
+                $lot->passport,
+                'closure',
+                $actor
+            );
+
+            $lot->passport->update([
+                'status' => 'closed',
+                'closed_at' => now(),
+            ]);
+
+            $updated = $this->lotRepository->update($lot, [
+                'status' => 'closed',
+            ]);
+
+            $this->logAudit($actor, 'closure', $updated);
 
             return $updated->fresh(['passport.events']);
         });

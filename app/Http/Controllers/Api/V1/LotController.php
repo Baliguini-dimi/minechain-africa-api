@@ -55,4 +55,22 @@ class LotController extends Controller
 
         return response()->json(new LotResource($updated));
     }
+
+    public function markAsDelivered(Request $request, Lot $lot): JsonResponse
+    {
+        $this->authorize('markAsDelivered', $lot);
+
+        $updated = $this->lotService->markAsDelivered($lot, $request->user());
+
+        return response()->json(new LotResource($updated));
+    }
+
+    public function closePassport(Request $request, Lot $lot): JsonResponse
+    {
+        $this->authorize('closePassport', $lot);
+
+        $updated = $this->lotService->closePassport($lot, $request->user());
+
+        return response()->json(new LotResource($updated));
+    }
 }
