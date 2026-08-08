@@ -43,6 +43,10 @@ class LotResource extends JsonResource
                     ])
                     : null,
             ]),
+            'qr_code' => $this->whenLoaded('qrCode', fn () => [
+                'code_value' => $this->qrCode->code_value,
+                'generated_at' => $this->qrCode->generated_at,
+            ]),
         ];
     }
 }

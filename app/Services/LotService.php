@@ -14,7 +14,8 @@ class LotService
 {
     public function __construct(
         protected LotRepositoryInterface $lotRepository,
-        protected PassportChainService $passportChainService
+        protected PassportChainService $passportChainService,
+        protected QrCodeService $qrCodeService
     ) {
     }
 
@@ -57,9 +58,11 @@ class LotService
                 ]
             );
 
+            $this->qrCodeService->generateFor($lot);
+
             $this->logAudit($actor, 'create', $lot);
 
-            return $lot->fresh(['passport.events']);
+            return $lot->fresh(['passport.events', 'qrCode']);
         });
     }
 

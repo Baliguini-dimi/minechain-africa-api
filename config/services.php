@@ -40,4 +40,8 @@ return [
         'public_key' => env('PASSPORT_CHAIN_PUBLIC_KEY'),
     ],
 
+    'qr_code' => [
+        'secret' => env('QR_CODE_HMAC_SECRET'),
+    ],
+
 ];
