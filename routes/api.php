@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CheckpointControlController;
+use App\Http\Controllers\Api\V1\CheckpointController;
 use App\Http\Controllers\Api\V1\LotController;
 use App\Http\Controllers\Api\V1\OrganizationController;
 use App\Http\Controllers\Api\V1\ResourceTypeController;
@@ -26,5 +28,7 @@ Route::prefix('v1')->group(function () {
         Route::apiResource('resource-types', ResourceTypeController::class)->except(['destroy']);
         Route::apiResource('lots', LotController::class)->except(['destroy']);
         Route::post('/lots/{lot}/depart', [LotController::class, 'markAsDeparted']);
+        Route::get('/checkpoints', [CheckpointController::class, 'index']);
+        Route::post('/checkpoint-controls', [CheckpointControlController::class, 'store']);
     });
 });
