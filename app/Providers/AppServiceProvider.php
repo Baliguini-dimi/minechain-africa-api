@@ -20,6 +20,16 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\OrganizationRepositoryInterface::class,
             \App\Repositories\OrganizationRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\SourceRepositoryInterface::class,
+            \App\Repositories\SourceRepository::class
+        );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\ResourceTypeRepositoryInterface::class,
+            \App\Repositories\ResourceTypeRepository::class
+        );
     }
 
     /**
