@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\OrganizationController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')->group(function () {
@@ -12,5 +13,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::post('/2fa/generate', [AuthController::class, 'generateTwoFactorSecret']);
         Route::post('/2fa/confirm', [AuthController::class, 'confirmTwoFactorEnrollment']);
+
+        Route::apiResource('organizations', OrganizationController::class)->except(['destroy']);
     });
 });
