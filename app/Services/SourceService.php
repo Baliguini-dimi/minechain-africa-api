@@ -15,7 +15,7 @@ class SourceService
     ) {
     }
 
-    public function listByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator
+    public function listByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator
     {
         return $this->sourceRepository->paginateByOrganization($organizationId, $perPage);
     }

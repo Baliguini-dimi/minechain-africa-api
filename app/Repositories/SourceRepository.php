@@ -8,11 +8,15 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class SourceRepository implements SourceRepositoryInterface
 {
-    public function paginateByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator
+    public function paginateByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator
     {
-        return Source::where('organization_id', $organizationId)
-            ->orderBy('name')
-            ->paginate($perPage);
+        $query = Source::orderBy('name');
+
+        if ($organizationId !== null) {
+            $query->where('organization_id', $organizationId);
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function findById(int $id): ?Source

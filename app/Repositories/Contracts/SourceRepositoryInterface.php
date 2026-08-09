@@ -7,7 +7,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 interface SourceRepositoryInterface
 {
-    public function paginateByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator;
+    public function paginateByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator;
 
     public function findById(int $id): ?Source;
 
