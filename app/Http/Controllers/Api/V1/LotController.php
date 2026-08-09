@@ -23,14 +23,14 @@ class LotController extends Controller
 
         $lots = $this->lotService->listByOrganization($request->user()->organization_id);
 
-        return response()->json(LotResource::collection($lots));
+        return response()->json(['data' => LotResource::collection($lots)]);
     }
 
     public function show(Lot $lot): JsonResponse
     {
         $this->authorize('view', $lot);
 
-        return response()->json(new LotResource($this->lotService->find($lot->id)));
+        return response()->json(['data' => new LotResource($this->lotService->find($lot->id))]);
     }
 
     public function store(StoreLotRequest $request): JsonResponse

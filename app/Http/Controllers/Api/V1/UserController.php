@@ -25,14 +25,14 @@ class UserController extends Controller
             $request->user()->organization_id
         );
 
-        return response()->json(UserResource::collection($users));
+        return response()->json(['data' => UserResource::collection($users)]);
     }
 
     public function show(User $user): JsonResponse
     {
         $this->authorize('view', $user);
 
-        return response()->json(new UserResource($user));
+        return response()->json(['data' => new UserResource($user)]);
     }
 
     public function store(StoreUserRequest $request): JsonResponse

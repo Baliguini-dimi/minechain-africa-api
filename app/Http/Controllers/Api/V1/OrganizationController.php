@@ -23,14 +23,14 @@ class OrganizationController extends Controller
 
         $organizations = $this->organizationService->list();
 
-        return response()->json(OrganizationResource::collection($organizations));
+        return response()->json(['data' => OrganizationResource::collection($organizations)]);
     }
 
     public function show(Organization $organization): JsonResponse
     {
         $this->authorize('view', $organization);
 
-        return response()->json(new OrganizationResource($organization));
+        return response()->json(['data' => new OrganizationResource($organization)]);
     }
 
     public function store(StoreOrganizationRequest $request): JsonResponse

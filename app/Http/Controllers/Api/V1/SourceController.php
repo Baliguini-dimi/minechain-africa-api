@@ -23,7 +23,7 @@ class SourceController extends Controller
 
         $sources = $this->sourceService->listByOrganization($request->user()->organization_id);
 
-        return response()->json(SourceResource::collection($sources));
+        return response()->json(['data' => SourceResource::collection($sources)]);
     }
 
     public function show(Source $source): JsonResponse

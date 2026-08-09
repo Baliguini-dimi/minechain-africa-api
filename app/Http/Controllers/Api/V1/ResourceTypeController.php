@@ -23,14 +23,14 @@ class ResourceTypeController extends Controller
 
         $types = $this->resourceTypeService->listAvailableFor($request->user());
 
-        return response()->json(ResourceTypeResource::collection($types));
+        return response()->json(['data' => ResourceTypeResource::collection($types)]);
     }
 
     public function show(ResourceType $resourceType): JsonResponse
     {
         $this->authorize('view', $resourceType);
 
-        return response()->json(new ResourceTypeResource($resourceType));
+        return response()->json(['data' => new ResourceTypeResource($resourceType)]);
     }
 
     public function store(StoreResourceTypeRequest $request): JsonResponse
