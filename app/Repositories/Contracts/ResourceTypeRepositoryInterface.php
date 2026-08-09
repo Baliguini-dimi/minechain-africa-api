@@ -10,7 +10,7 @@ interface ResourceTypeRepositoryInterface
     /**
      * Retourne les types globaux (organization_id null) + ceux propres à l'organisation.
      */
-    public function listAvailableForOrganization(int $organizationId): Collection;
+    public function listAvailableForOrganization(?int $organizationId): Collection;
 
     public function findById(int $id): ?ResourceType;
 

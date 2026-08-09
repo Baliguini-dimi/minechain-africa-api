@@ -20,7 +20,7 @@ class LotService
     ) {
     }
 
-    public function listByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator
+    public function listByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator
     {
         return $this->lotRepository->paginateByOrganization($organizationId, $perPage);
     }

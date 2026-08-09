@@ -15,7 +15,7 @@ class UserManagementService
     ) {
     }
 
-    public function listByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator
+    public function listByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator
     {
         return $this->userRepository->paginateByOrganization($organizationId, $perPage);
     }

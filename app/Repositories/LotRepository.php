@@ -8,12 +8,15 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class LotRepository implements LotRepositoryInterface
 {
-    public function paginateByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator
+    public function paginateByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator
     {
-        return Lot::where('organization_id', $organizationId)
-            ->with(['source', 'resourceType', 'passport'])
-            ->latest('creation_date')
-            ->paginate($perPage);
+        $query = Lot::with(['source', 'resourceType', 'passport'])->latest('creation_date');
+
+        if ($organizationId !== null) {
+            $query->where('organization_id', $organizationId);
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function findById(int $id): ?Lot

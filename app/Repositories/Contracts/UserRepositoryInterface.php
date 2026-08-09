@@ -11,7 +11,7 @@ interface UserRepositoryInterface
 
     public function findById(int $id): ?User;
 
-    public function paginateByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator;
+    public function paginateByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator;
 
     public function create(array $data): User;
 

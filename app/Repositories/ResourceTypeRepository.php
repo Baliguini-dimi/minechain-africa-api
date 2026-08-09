@@ -8,12 +8,20 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ResourceTypeRepository implements ResourceTypeRepositoryInterface
 {
-    public function listAvailableForOrganization(int $organizationId): Collection
+    public function listAvailableForOrganization(?int $organizationId): Collection
     {
-        return ResourceType::whereNull('organization_id')
-            ->orWhere('organization_id', $organizationId)
-            ->orderBy('name')
-            ->get();
+        $query = ResourceType::query();
+
+        if ($organizationId === null) {
+            $query->whereNull('organization_id');
+        } else {
+            $query->where(function ($q) use ($organizationId) {
+                $q->whereNull('organization_id')
+                    ->orWhere('organization_id', $organizationId);
+            });
+        }
+
+        return $query->orderBy('name')->get();
     }
 
     public function findById(int $id): ?ResourceType

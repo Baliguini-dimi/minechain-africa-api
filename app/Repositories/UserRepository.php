@@ -18,11 +18,15 @@ class UserRepository implements UserRepositoryInterface
         return User::find($id);
     }
 
-    public function paginateByOrganization(int $organizationId, int $perPage = 15): LengthAwarePaginator
+    public function paginateByOrganization(?int $organizationId, int $perPage = 15): LengthAwarePaginator
     {
-        return User::where('organization_id', $organizationId)
-            ->orderBy('name')
-            ->paginate($perPage);
+        $query = User::orderBy('name');
+
+        if ($organizationId !== null) {
+            $query->where('organization_id', $organizationId);
+        }
+
+        return $query->paginate($perPage);
     }
 
     public function create(array $data): User
