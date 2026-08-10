@@ -46,7 +46,7 @@ class AuthService
 
         return [
             'requires_2fa' => false,
-            'user' => $user,
+            'user' => $user->load('role'),
             'token' => $this->issueToken($user),
         ];
     }
@@ -65,7 +65,7 @@ class AuthService
         }
 
         return [
-            'user' => $user,
+            'user' => $user->load('role'),
             'token' => $this->issueToken($user),
         ];
     }
