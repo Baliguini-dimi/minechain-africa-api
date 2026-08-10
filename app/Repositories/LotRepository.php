@@ -21,7 +21,7 @@ class LotRepository implements LotRepositoryInterface
 
     public function findById(int $id): ?Lot
     {
-        return Lot::with(['source', 'resourceType', 'passport.events'])->find($id);
+        return Lot::with(['source', 'resourceType', 'passport.events', 'anomalies'])->find($id);
     }
 
     public function create(array $data): Lot

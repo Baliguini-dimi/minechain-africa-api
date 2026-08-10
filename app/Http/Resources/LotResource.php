@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\AnomalyResource;
 
 class LotResource extends JsonResource
 {
@@ -47,6 +48,7 @@ class LotResource extends JsonResource
                 'code_value' => $this->qrCode->code_value,
                 'generated_at' => $this->qrCode->generated_at,
             ]),
+            'anomalies' => $this->whenLoaded('anomalies', fn () => AnomalyResource::collection($this->anomalies)),
         ];
     }
 }
