@@ -20,6 +20,6 @@ class CheckpointController extends Controller
 
         $checkpoints = $this->checkpointRepository->listAll();
 
-        return response()->json(CheckpointResource::collection($checkpoints));
+        return response()->json(['data' => CheckpointResource::collection($checkpoints)]);
     }
 }
