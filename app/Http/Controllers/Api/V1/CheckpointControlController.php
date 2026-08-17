@@ -21,7 +21,8 @@ class CheckpointControlController extends Controller
             $request->validated('checkpoint_id'),
             $request->user(),
             $request->validated('status'),
-            $request->validated('observations')
+            $request->validated('observations'),
+            $request->validated('measured_weight')
         );
 
         return response()->json(new CheckpointControlResource($control), 201);

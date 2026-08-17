@@ -10,5 +10,7 @@ interface AnomalyRepositoryInterface
 
     public function findById(int $id): ?Anomaly;
 
+    public function listOpenForOrganization(int $organizationId, int $limit = 10);
+
     public function update(Anomaly $anomaly, array $data): Anomaly;
 }

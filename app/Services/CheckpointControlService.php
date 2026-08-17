@@ -13,7 +13,8 @@ class CheckpointControlService
     public function __construct(
         protected CheckpointControlRepositoryInterface $checkpointControlRepository,
         protected QrCodeService $qrCodeService,
-        protected PassportChainService $passportChainService
+        protected PassportChainService $passportChainService,
+        protected AiAnomalyDetectionService $aiAnomalyDetectionService
     ) {
     }
 
@@ -28,7 +29,8 @@ class CheckpointControlService
         int $checkpointId,
         User $agent,
         string $status,
-        ?string $observations = null
+        ?string $observations = null,
+        ?float $measuredWeight = null
     ): CheckpointControl {
         $lot = $this->qrCodeService->verifyToken($qrToken);
 
@@ -38,13 +40,14 @@ class CheckpointControlService
             ]);
         }
 
-        return DB::transaction(function () use ($lot, $checkpointId, $agent, $status, $observations) {
+        return DB::transaction(function () use ($lot, $checkpointId, $agent, $status, $observations, $measuredWeight) {
             $control = $this->checkpointControlRepository->create([
                 'checkpoint_id' => $checkpointId,
                 'lot_id' => $lot->id,
                 'agent_user_id' => $agent->id,
                 'control_datetime' => now(),
                 'status' => $status,
+                'measured_weight' => $measuredWeight,
                 'observations' => $observations,
             ]);
 
@@ -56,8 +59,13 @@ class CheckpointControlService
                     'checkpoint_id' => $checkpointId,
                     'status' => $status,
                     'observations' => $observations,
+                    'measured_weight' => $measuredWeight,
                 ]
             );
+
+            if ($measuredWeight !== null) {
+                $this->aiAnomalyDetectionService->analyzeWeight($control, (float) $lot->weight_volume);
+            }
 
             return $control;
         });

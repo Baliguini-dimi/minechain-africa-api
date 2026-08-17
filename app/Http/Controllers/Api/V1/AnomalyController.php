@@ -10,11 +10,21 @@ use App\Models\Anomaly;
 use App\Models\Lot;
 use App\Services\AnomalyService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class AnomalyController extends Controller
 {
     public function __construct(protected AnomalyService $anomalyService)
     {
+    }
+
+    public function index(Request $request): JsonResponse
+    {
+        $this->authorize('viewAny', Anomaly::class);
+
+        $anomalies = $this->anomalyService->listOpenForOrganization($request->user()->organization_id);
+
+        return response()->json(['data' => AnomalyResource::collection($anomalies)]);
     }
 
     public function store(StoreAnomalyRequest $request, Lot $lot): JsonResponse

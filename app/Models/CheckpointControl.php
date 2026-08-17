@@ -13,11 +13,13 @@ class CheckpointControl extends Model
         'agent_user_id',
         'control_datetime',
         'status',
+        'measured_weight',
         'observations',
     ];
 
     protected $casts = [
         'control_datetime' => 'datetime',
+        'measured_weight' => 'decimal:3',
     ];
 
     public function checkpoint(): BelongsTo

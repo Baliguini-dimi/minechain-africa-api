@@ -1,13 +1,18 @@
 <?php
 
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\AuditLogController;
 use App\Http\Controllers\Api\V1\AnomalyController;
+use App\Http\Controllers\Api\V1\ActivityController;
 use App\Http\Controllers\Api\V1\CheckpointControlController;
 use App\Http\Controllers\Api\V1\CheckpointController;
+use App\Http\Controllers\Api\V1\DocumentController;
 use App\Http\Controllers\Api\V1\GpsTrackingController;
 use App\Http\Controllers\Api\V1\LotController;
+use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\OrganizationController;
 use App\Http\Controllers\Api\V1\ResourceTypeController;
+use App\Http\Controllers\Api\V1\SearchController;
 use App\Http\Controllers\Api\V1\SourceController;
 use App\Http\Controllers\Api\V1\UserController;
 use Illuminate\Support\Facades\Route;
@@ -32,11 +37,20 @@ Route::prefix('v1')->group(function () {
         Route::post('/lots/{lot}/depart', [LotController::class, 'markAsDeparted']);
         Route::post('/lots/{lot}/deliver', [LotController::class, 'markAsDelivered']);
         Route::post('/lots/{lot}/close-passport', [LotController::class, 'closePassport']);
+        Route::get('/lots/{lot}/documents', [DocumentController::class, 'index']);
+        Route::post('/lots/{lot}/documents', [DocumentController::class, 'store']);
         Route::post('/lots/{lot}/gps-device', [GpsTrackingController::class, 'assignDevice']);
         Route::post('/lots/{lot}/gps-positions', [GpsTrackingController::class, 'recordPosition']);
         Route::get('/lots/{lot}/gps-positions', [GpsTrackingController::class, 'history']);
         Route::get('/checkpoints', [CheckpointController::class, 'index']);
         Route::post('/checkpoint-controls', [CheckpointControlController::class, 'store']);
+        Route::get('/anomalies', [AnomalyController::class, 'index']);
+        Route::get('/activity', [ActivityController::class, 'index']);
+        Route::get('/search', [SearchController::class, 'search']);
+        Route::get('/audit-logs', [AuditLogController::class, 'index']);
+        Route::get('/notifications', [NotificationController::class, 'index']);
+        Route::post('/notifications/{notification}/read', [NotificationController::class, 'markAsRead']);
+        Route::post('/notifications/read-all', [NotificationController::class, 'markAllAsRead']);
         Route::post('/lots/{lot}/anomalies', [AnomalyController::class, 'store']);
         Route::post('/anomalies/{anomaly}/resolve', [AnomalyController::class, 'resolve']);
     });

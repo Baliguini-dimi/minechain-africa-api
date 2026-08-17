@@ -60,6 +60,11 @@ class AppServiceProvider extends ServiceProvider
             \App\Repositories\Contracts\GpsPositionRepositoryInterface::class,
             \App\Repositories\GpsPositionRepository::class
         );
+
+        $this->app->bind(
+            \App\Repositories\Contracts\DocumentRepositoryInterface::class,
+            \App\Repositories\DocumentRepository::class
+        );
     }
 
     /**

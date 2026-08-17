@@ -44,4 +44,8 @@ return [
         'secret' => env('QR_CODE_HMAC_SECRET'),
     ],
 
+    'ai_service' => [
+        'url' => env('AI_SERVICE_URL', 'http://localhost:8001'),
+    ],
+
 ];

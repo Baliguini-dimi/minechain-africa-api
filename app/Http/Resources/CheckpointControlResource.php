@@ -16,6 +16,7 @@ class CheckpointControlResource extends JsonResource
             'agent_user_id' => $this->agent_user_id,
             'control_datetime' => $this->control_datetime,
             'status' => $this->status,
+            'measured_weight' => $this->measured_weight,
             'observations' => $this->observations,
         ];
     }

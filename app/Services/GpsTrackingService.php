@@ -14,7 +14,8 @@ class GpsTrackingService
 {
     public function __construct(
         protected GpsDeviceRepositoryInterface $gpsDeviceRepository,
-        protected GpsPositionRepositoryInterface $gpsPositionRepository
+        protected GpsPositionRepositoryInterface $gpsPositionRepository,
+        protected AiAnomalyDetectionService $aiAnomalyDetectionService
     ) {
     }
 
@@ -63,7 +64,7 @@ class GpsTrackingService
                 ]);
             }
 
-            return $this->gpsPositionRepository->create([
+            $position = $this->gpsPositionRepository->create([
                 'gps_device_id' => $device->id,
                 'lot_id' => $lot->id,
                 'lat' => $data['lat'],
@@ -72,6 +73,10 @@ class GpsTrackingService
                 'recorded_at' => now(),
                 'is_anomaly_flagged' => false,
             ]);
+
+            $this->aiAnomalyDetectionService->analyzeGpsPosition($position);
+
+            return $position;
         });
     }
 

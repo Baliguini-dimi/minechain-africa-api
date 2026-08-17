@@ -48,6 +48,11 @@ class AnomalyService
         });
     }
 
+    public function listOpenForOrganization(int $organizationId)
+    {
+        return $this->anomalyRepository->listOpenForOrganization($organizationId);
+    }
+
     /**
      * Résolution ou classement sans suite d'une anomalie par un Superviseur.
      * Ne remet PAS automatiquement le lot en "in_transit" — c'est une décision

@@ -7,6 +7,11 @@ use App\Models\User;
 
 class AnomalyPolicy
 {
+    public function viewAny(User $user): bool
+    {
+        return $user->hasAnyRole(['super_admin_technique', 'admin_organisation', 'superviseur']);
+    }
+
     /**
      * Agent Checkpoint et Superviseur peuvent signaler une anomalie
      * (04-roles-et-permissions.md §4 et §5).

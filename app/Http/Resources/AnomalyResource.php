@@ -12,6 +12,7 @@ class AnomalyResource extends JsonResource
         return [
             'id' => $this->id,
             'lot_id' => $this->lot_id,
+            'lot_uuid' => $this->whenLoaded('lot', fn () => $this->lot->uuid),
             'type' => $this->type,
             'description' => $this->description,
             'severity' => $this->severity,

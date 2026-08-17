@@ -18,6 +18,7 @@ class StoreCheckpointControlRequest extends FormRequest
             'qr_token' => ['required', 'string'],
             'checkpoint_id' => ['required', 'integer', 'exists:checkpoints,id'],
             'status' => ['required', 'in:ok,anomaly_reported'],
+            'measured_weight' => ['nullable', 'numeric', 'min:0'],
             'observations' => ['nullable', 'string'],
         ];
     }
