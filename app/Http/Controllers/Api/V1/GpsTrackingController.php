@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AssignGpsDeviceRequest;
 use App\Http\Requests\RecordGpsPositionRequest;
 use App\Http\Resources\GpsPositionResource;
+use App\Models\GpsPosition;
 use App\Models\Lot;
 use App\Services\GpsTrackingService;
 use Illuminate\Http\JsonResponse;
@@ -35,10 +36,10 @@ class GpsTrackingController extends Controller
 
     public function history(Lot $lot): JsonResponse
     {
-        $this->authorize('viewHistory', $lot);
+        $this->authorize('viewHistory', [GpsPosition::class, $lot]);
 
         $positions = $this->gpsTrackingService->history($lot);
 
-        return response()->json(GpsPositionResource::collection($positions));
+        return response()->json(['data' => GpsPositionResource::collection($positions)]);
     }
 }
